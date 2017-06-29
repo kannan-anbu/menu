@@ -1,0 +1,51 @@
+package com.kannan.lib;
+
+/**
+ * Created by kannan on 29/6/17.
+ */
+
+public enum MenuGravity {
+
+    CENTER_HORIZONTAL(0),
+
+    CENTER_VERTICAL(1),
+
+    TOP_LEFT_HORIZONTAL(2),
+
+    TOP_LEFT_VERTICAL(3),
+
+    TOP_CENTER_HORIZONTAL(4),
+
+    TOP_CENTER_VERTICAL(5),
+
+    TOP_RIGHT_HORIZONTAL(6),
+
+    TOP_RIGHT_VERTICAL(7),
+
+    RIGHT_CENTER_HORIZONTAL(8),
+
+    RIGHT_CENTER_VERTICAL(9),
+
+    BOTTOM_RIGHT_HORIZONTAL(10),
+
+    BOTTOM_RIGHT_VERTICAL(11),
+
+    BOTTOM_CENTER_HORIZONTAL(12),
+
+    BOTTOM_CENTER_VERTICAL(13),
+
+    BOTTOM_LEFT_HORIZONTAL(14),
+
+    BOTTOM_LEFT_VERTICAL(15),
+
+    LEFT_CENTER_HORIZONTAL(16),
+
+    LEFT_CENTER_VERTICAL(17);
+
+
+    int mId;
+
+    MenuGravity(int id) {
+        mId = id;
+    }
+}
