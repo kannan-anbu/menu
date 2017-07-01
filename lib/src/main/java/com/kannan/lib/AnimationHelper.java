@@ -1,22 +1,18 @@
 package com.kannan.lib;
 
-import android.widget.LinearLayout;
+import android.view.View;
+
+import com.nineoldandroids.animation.AnimatorSet;
 
 /**
  * Created by kannan on 1/7/17.
  */
 
-public class AnimationHelper {
+public interface AnimationHelper {
 
-    int duration = 1000;
+    void initViewProperties(View view);
 
-    LinearLayout container;
+    AnimatorSet getShowAnimation(View view, int duration, int delay);
 
-    public AnimationHelper(LinearLayout con) {
-        container = con;
-    }
-
-    void initViewProperties() {
-
-    }
+    AnimatorSet getHideAnimation(View view, int duration, int delay);
 }

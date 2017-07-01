@@ -31,6 +31,14 @@ public class ViewSpawner {
         return textView;
     }
 
+    public static View spawnWrappedTextView(Context context, TextMenuItem textMenuItem, MenuOrientation orientation) {
+        LinearLayout wrapper = new LinearLayout(context);
+        wrapper.setLayoutParams(orientation.getLinearLayoutParams());
+        wrapper.addView(spawnTextView(context, textMenuItem));
+
+        return wrapper;
+    }
+
     public static View spawnSpaceView(Context context, int width, int height) {
         Space space = new Space(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -63,6 +71,14 @@ public class ViewSpawner {
         imageView.setScaleType(imageMenuItem.getImgScaletype());
 
         return imageView;
+    }
+
+    public static View spawnWrappedImageView(Context context, ImageMenuItem imageMenuItem, MenuOrientation orientation) {
+        LinearLayout wrapper = new LinearLayout(context);
+        wrapper.setLayoutParams(orientation.getLinearLayoutParams());
+        wrapper.addView(spawnImageView(context, imageMenuItem));
+
+        return wrapper;
     }
 
     public static View spawnImageTextView(Context context, ImageTextMenuItem imageTextMenuItem) {
