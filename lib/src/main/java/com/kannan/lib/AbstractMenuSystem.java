@@ -21,7 +21,10 @@ public abstract class AbstractMenuSystem {
 
     protected Context mContext;
 
-    protected MenuGravity mMenuGravity = MenuGravity.CENTER_VERTICAL;
+    protected MenuGravity mMenuGravity = MenuGravity.CENTER;
+    protected MenuOrientation mMenuOrientation = MenuOrientation.VERTICAL;
+    protected MenuDirection mMenuDirection = MenuDirection.LEFT_TO_RIGHT;
+    protected MenuStretchMode mMenuStretchMode = MenuStretchMode.WRAP_CONTENT;
 
     protected List<MenuItem> mMenuItems;
     private RelativeLayout mRootContainer;
@@ -54,138 +57,76 @@ public abstract class AbstractMenuSystem {
 
     protected void setupLayouts() {
 
-        mMenuContainer = new LinearLayout(mContext);
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+
+        if (mMenuStretchMode == MenuStretchMode.MATCH_PARENT) {
+            if (mMenuGravity == MenuGravity.TOP_CENTER
+                    || mMenuGravity == MenuGravity.BOTTOM_CENTER
+                    || mMenuGravity == MenuGravity.CENTER) {
+                width = LinearLayout.LayoutParams.MATCH_PARENT;
+            }
+        } else {
+            if (mMenuGravity == MenuGravity.RIGHT_CENTER
+                    || mMenuGravity == MenuGravity.LEFT_CENTER
+                    || mMenuGravity == MenuGravity.CENTER) {
+                height = LinearLayout.LayoutParams.MATCH_PARENT;
+            }
+        }
+
+        mMenuContainer = createMenuContainer(mMenuOrientation);
         ViewGroup.LayoutParams menuContainerLP = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                width, height
         );
+
+        mScrollView = createScrollView(mMenuOrientation);
         RelativeLayout.LayoutParams scrollViewLP = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                width, height
         );
 
         switch (mMenuGravity) {
-            case CENTER_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case CENTER:
                 scrollViewLP.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case CENTER_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case TOP_LEFT_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case TOP_LEFT:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case TOP_LEFT_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case TOP_CENTER_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case TOP_CENTER:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case TOP_CENTER_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case TOP_RIGHT_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case TOP_RIGHT:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case TOP_RIGHT_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case RIGHT_CENTER_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case RIGHT_CENTER:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case RIGHT_CENTER_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-
-                break;
-
-            case BOTTOM_RIGHT_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case BOTTOM_RIGHT:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case BOTTOM_RIGHT_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
-                break;
-
-            case BOTTOM_CENTER_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case BOTTOM_CENTER:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case BOTTOM_CENTER_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case BOTTOM_LEFT_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case BOTTOM_LEFT:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
                 break;
 
-            case BOTTOM_LEFT_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
-                break;
-
-            case LEFT_CENTER_HORIZONTAL:
-                mScrollView = new HorizontalScrollView(mContext);
+            case LEFT_CENTER:
                 scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 scrollViewLP.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.HORIZONTAL);
-                break;
-
-            case LEFT_CENTER_VERTICAL:
-                mScrollView = new ScrollView(mContext);
-                scrollViewLP.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-                scrollViewLP.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                mMenuContainer.setOrientation(LinearLayout.VERTICAL);
                 break;
         }
 
@@ -194,6 +135,22 @@ public abstract class AbstractMenuSystem {
 
         mScrollView.addView(mMenuContainer);
         mRootContainer.addView(mScrollView);
+    }
+
+    private LinearLayout createMenuContainer(MenuOrientation orientation) {
+        LinearLayout layout = new LinearLayout(mContext);
+        layout.setOrientation(
+                orientation == MenuOrientation.HORIZONTAL
+                        ? LinearLayout.HORIZONTAL
+                        : LinearLayout.VERTICAL
+        );
+        return layout;
+    }
+
+    private FrameLayout createScrollView(MenuOrientation orientation) {
+        return orientation == MenuOrientation.HORIZONTAL
+                ? new HorizontalScrollView(mContext)
+                : new ScrollView(mContext);
     }
 
     abstract void createMenuViews();

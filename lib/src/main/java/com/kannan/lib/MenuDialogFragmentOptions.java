@@ -18,7 +18,7 @@ public class MenuDialogFragmentOptions implements Serializable {
     public MenuDialogFragmentOptions() {
         mMenuItems = null;
         mDividerSpacingDP = 0;
-        mMenuGravity = MenuGravity.CENTER_VERTICAL;
+        mMenuGravity = MenuGravity.CENTER;
     }
 
     public void setMenuItems(List<MenuItem> menuItems) {

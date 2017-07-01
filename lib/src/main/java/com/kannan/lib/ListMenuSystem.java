@@ -17,12 +17,6 @@ import java.util.List;
 
 public class ListMenuSystem extends AbstractMenuSystem {
 
-
-
-
-
-
-
     ListMenuSystem(Context context, RelativeLayout rootContainer, List<MenuItem> menuItems) {
         super(context, rootContainer, menuItems);
     }
