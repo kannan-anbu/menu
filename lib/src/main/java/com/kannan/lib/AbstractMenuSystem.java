@@ -1,6 +1,7 @@
 package com.kannan.lib;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -23,7 +24,7 @@ public abstract class AbstractMenuSystem {
 
     protected MenuGravity mMenuGravity = MenuGravity.CENTER;
     protected MenuOrientation mMenuOrientation = MenuOrientation.VERTICAL;
-    protected MenuDirection mMenuDirection = MenuDirection.LEFT_TO_RIGHT;
+    protected MenuAnimationDirection mMenuAnimationDirection = MenuAnimationDirection.LEFT_TO_RIGHT;
     protected MenuStretchMode mMenuStretchMode = MenuStretchMode.WRAP_CONTENT;
 
     protected List<MenuItem> mMenuItems;
@@ -49,6 +50,7 @@ public abstract class AbstractMenuSystem {
 
     public void build() {
         setupLayouts();
+        mMenuContainer.setBackgroundColor(Color.GRAY);
         createMenuViews();
         initialiseViewProperties();
         buildAnimatorSet();
@@ -60,19 +62,19 @@ public abstract class AbstractMenuSystem {
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
 
-        if (mMenuStretchMode == MenuStretchMode.MATCH_PARENT) {
-            if (mMenuGravity == MenuGravity.TOP_CENTER
-                    || mMenuGravity == MenuGravity.BOTTOM_CENTER
-                    || mMenuGravity == MenuGravity.CENTER) {
-                width = LinearLayout.LayoutParams.MATCH_PARENT;
-            }
-        } else {
-            if (mMenuGravity == MenuGravity.RIGHT_CENTER
-                    || mMenuGravity == MenuGravity.LEFT_CENTER
-                    || mMenuGravity == MenuGravity.CENTER) {
-                height = LinearLayout.LayoutParams.MATCH_PARENT;
-            }
-        }
+//        if (mMenuStretchMode == MenuStretchMode.MATCH_PARENT) {
+//            if (mMenuGravity == MenuGravity.TOP_CENTER
+//                    || mMenuGravity == MenuGravity.BOTTOM_CENTER
+//                    || mMenuGravity == MenuGravity.CENTER) {
+//                width = LinearLayout.LayoutParams.MATCH_PARENT;
+//            }
+//        } else {
+//            if (mMenuGravity == MenuGravity.RIGHT_CENTER
+//                    || mMenuGravity == MenuGravity.LEFT_CENTER
+//                    || mMenuGravity == MenuGravity.CENTER) {
+//                height = LinearLayout.LayoutParams.MATCH_PARENT;
+//            }
+//        }
 
         mMenuContainer = createMenuContainer(mMenuOrientation);
         ViewGroup.LayoutParams menuContainerLP = new ViewGroup.LayoutParams(
@@ -160,19 +162,28 @@ public abstract class AbstractMenuSystem {
     abstract void buildAnimatorSet();
 
     public void toggleMenu() {
-        if (!mIsAnimating) {
-            //change mIsAnimating
-            if (mIsMenuOpen) {
+//        if (!mIsAnimating) {
+//            change mIsAnimating
+//            if (mIsMenuOpen) {
+        initialiseViewProperties();
                 mOpenAnimatorSet.start();
-            } else {
-                mCloseAnimatorSet.start();
-            }
-            mIsMenuOpen = !mIsMenuOpen;
-        }
+//            } else {
+//                mCloseAnimatorSet.start();
+//            }
+//            mIsMenuOpen = !mIsMenuOpen;
+//        }
     }
 
     public void setMenuGravity(MenuGravity gravity) {
         mMenuGravity = gravity;
+    }
+
+    public void setMenuAnimationDirection(MenuAnimationDirection direction) {
+        mMenuAnimationDirection = direction;
+    }
+
+    public void setMenuOrientation(MenuOrientation orientation) {
+        mMenuOrientation = orientation;
     }
 
     public void setDividerSpacing(int spacing) {

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ListMenuSystem extends AbstractMenuSystem {
 
-    AlphaAnimationHelper helper;
+    AnimationHelper helper;
     int animCount = 0;
 
     ListMenuSystem(Context context, RelativeLayout rootContainer, List<MenuItem> menuItems) {
@@ -27,11 +28,11 @@ public class ListMenuSystem extends AbstractMenuSystem {
     protected void createMenuViews() {
         for (MenuItem menuItem : mMenuItems) {
             if (menuItem instanceof TextMenuItem) {
-                View view = ViewSpawner.spawnTextView(mContext, (TextMenuItem) menuItem);
+                View view = ViewSpawner.spawnWrappedTextView(mContext, (TextMenuItem) menuItem, mMenuOrientation);
                 view.setTag(MenuItemStructure.TEXT.getTag());
                 mMenuContainer.addView(view);
             } else if (menuItem instanceof ImageMenuItem) {
-                View view = ViewSpawner.spawnImageView(mContext, (ImageMenuItem) menuItem);
+                View view = ViewSpawner.spawnWrappedImageView(mContext, (ImageMenuItem) menuItem, mMenuOrientation);
                 view.setTag(MenuItemStructure.ICON.getTag());
                 mMenuContainer.addView(view);
             } else if (menuItem instanceof ImageTextMenuItem) {
@@ -45,7 +46,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     ViewSpawner.spawnSpaceView(mContext, -1, 30)
             );
         }
-        helper = new AlphaAnimationHelper();
+        helper = new AlphaAnimationHelper(mMenuAnimationDirection);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
         int dt = 5000;
         animCount = countAnimatables();
         int d = dt / animCount;
-        int del = d/4;
+        int del = d/2;
         int x = 0;
 
         List<Animator> al = new ArrayList<>();
@@ -75,12 +76,13 @@ public class ListMenuSystem extends AbstractMenuSystem {
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View item = mMenuContainer.getChildAt(i);
             if (isAnimatable(item)) {
-                Animator atr = helper.getShowAnimation(item, d, del*x);
+                al.addAll(helper.getShowAnimation(item, d, del*x));
                 x += 1;
-                al.add(atr);
+
             }
         }
-        mCloseAnimatorSet.playTogether(al);
+        mOpenAnimatorSet.playTogether(al);
+        mOpenAnimatorSet.setStartDelay(1000);
     }
 
     boolean isAnimatable(View view) {

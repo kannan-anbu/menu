@@ -9,31 +9,32 @@ public enum MenuGravity {
     CENTER(0),
 
 
-    TOP_LEFT(2),
+    TOP_LEFT(1),
 
 
-    TOP_CENTER(4),
+    TOP_CENTER(2),
 
 
-    TOP_RIGHT(6),
+    TOP_RIGHT(3),
 
 
-    RIGHT_CENTER(8),
+    RIGHT_CENTER(4),
 
 
-    BOTTOM_RIGHT(10),
+    BOTTOM_RIGHT(5),
 
 
-    BOTTOM_CENTER(12),
+    BOTTOM_CENTER(6),
 
 
-    BOTTOM_LEFT(14),
+    BOTTOM_LEFT(7),
 
-    LEFT_CENTER(16);
+    LEFT_CENTER(8);
 
     int mId;
 
     MenuGravity(int id) {
         mId = id;
     }
+
 }

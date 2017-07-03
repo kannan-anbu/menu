@@ -12,6 +12,8 @@ public class MenuDialogFragmentOptions implements Serializable {
     private List<MenuItem> mMenuItems;
 
     private MenuGravity mMenuGravity;
+    private MenuAnimationDirection mMenuAnimationDirection;
+    private MenuOrientation mMenuOrientation;
     private float mDividerSpacingDP;
 
 
@@ -33,6 +35,13 @@ public class MenuDialogFragmentOptions implements Serializable {
         mMenuGravity = gravity;
     }
 
+    public void setMenuAnimationDirection(MenuAnimationDirection direction) {
+        mMenuAnimationDirection = direction;
+    }
+
+    public void setMenuOrientation(MenuOrientation orientation) {
+        mMenuOrientation = orientation;
+    }
 
 
 
@@ -46,5 +55,13 @@ public class MenuDialogFragmentOptions implements Serializable {
 
     public MenuGravity getMenuGravity() {
         return mMenuGravity;
+    }
+
+    public MenuAnimationDirection getMenuAnimationDirection() {
+        return mMenuAnimationDirection;
+    }
+
+    public MenuOrientation getMenuOrientation() {
+        return mMenuOrientation;
     }
 }

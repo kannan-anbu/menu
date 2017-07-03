@@ -47,6 +47,13 @@ public class MenuDialogFragment extends DialogFragment {
 
         mRootContainer = (RelativeLayout) root.findViewById(R.id.root_container);
         initMenuSystem();
+        mRootContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMenuSystem.toggleMenu();
+            }
+        });
+
         return root;
     }
 
@@ -57,6 +64,8 @@ public class MenuDialogFragment extends DialogFragment {
         mMenuSystem = new ListMenuSystem(getContext(), mRootContainer, mMenuOptions.getMenuItems());
         mMenuSystem.setMenuGravity(mMenuOptions.getMenuGravity());
         mMenuSystem.setDividerSpacing((int) mMenuOptions.getDividerSpacingDP());
+        mMenuSystem.setMenuAnimationDirection(mMenuOptions.getMenuAnimationDirection());
+        mMenuSystem.setMenuOrientation(mMenuOptions.getMenuOrientation());
         mMenuSystem.build();
         mMenuSystem.toggleMenu();
     }
