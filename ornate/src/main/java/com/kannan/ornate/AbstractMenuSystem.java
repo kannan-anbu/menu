@@ -24,8 +24,8 @@ public abstract class AbstractMenuSystem {
 
     protected MenuGravity mMenuGravity = MenuGravity.CENTER;
     protected MenuOrientation mMenuOrientation = MenuOrientation.VERTICAL;
-    protected MenuAnimationDirection mMenuAnimationDirection = MenuAnimationDirection.LEFT_TO_RIGHT;
-    protected MenuStretchMode mMenuStretchMode = MenuStretchMode.WRAP_CONTENT;
+//    protected MenuAnimationDirection mMenuAnimationDirection = MenuAnimationDirection.LEFT_TO_RIGHT;
+//    protected MenuStretchMode mMenuStretchMode = MenuStretchMode.WRAP_CONTENT;
 
     protected List<MenuItem> mMenuItems;
     private RelativeLayout mRootContainer;
@@ -50,7 +50,7 @@ public abstract class AbstractMenuSystem {
     public void buildUpon(RelativeLayout rootContainer) {
         mRootContainer = rootContainer;
         setupLayouts();
-        mMenuContainer.setBackgroundColor(Color.GRAY);
+//        mMenuContainer.setBackgroundColor(Color.GRAY);
         createMenuViews();
         initialiseViewProperties();
         buildAnimatorSet();
@@ -183,9 +183,9 @@ public abstract class AbstractMenuSystem {
         mMenuGravity = gravity;
     }
 
-    public void setMenuAnimationDirection(MenuAnimationDirection direction) {
-        mMenuAnimationDirection = direction;
-    }
+//    public void setMenuAnimationDirection(MenuAnimationDirection direction) {
+//        mMenuAnimationDirection = direction;
+//    }
 
     public void setMenuOrientation(MenuOrientation orientation) {
         mMenuOrientation = orientation;

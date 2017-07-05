@@ -3,6 +3,7 @@ package com.kannan.ornate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -24,7 +25,7 @@ public class ThemeHelper {
     }
 
     public void applyForTextView(TextView textView) {
-        textView.setTextAppearance(c, mTheme.getTextAppearanceStyle()); // needs context
+//        textView.setTextAppearance(c, mTheme.getTextAppearanceStyle()); // needs context
 
     }
 
@@ -90,7 +91,8 @@ public class ThemeHelper {
             View icon;
             View text;
             View space;
-            if (wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT) {
+            if (wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT
+                    || wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT) {
                 icon = wrapper.getChildAt(0);
                 space = wrapper.getChildAt(1);
                 text = wrapper.getChildAt(2);
@@ -119,6 +121,12 @@ public class ThemeHelper {
 //                    child1.getPaddingBottom()
 //            );
         }
+
+    }
+
+    // should be called only after all children are set layoutparams
+    // to hack max width / height
+    public void applyForScrollContainer(FrameLayout scrollView) {
 
     }
 }

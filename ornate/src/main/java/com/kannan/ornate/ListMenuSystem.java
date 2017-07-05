@@ -22,7 +22,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
 
     LinearLayout mMenuContainer;
 
-    ListMenuSystem(Context context) {
+    public ListMenuSystem(Context context) {
         super(context);
     }
 
@@ -90,57 +90,57 @@ public class ListMenuSystem extends AbstractMenuSystem {
     protected void initialiseViewProperties() {
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View view = mMenuContainer.getChildAt(i);
-            if (isAnimatable(view)) {
+//            if (isAnimatable(view)) {
 //                helper.initViewProperties(view);
-            }
+//            }
         }
     }
 
     @Override
     protected void buildAnimatorSet() {
-        buildOpenAnimatorSet();
+//        buildOpenAnimatorSet();
     }
-
-    private void buildOpenAnimatorSet() {
-        int dt = 5000;
-        animCount = countAnimatables();
-        int d = dt / animCount;
-        int del = d/2;
-        int x = 0;
-
-        List<Animator> al = new ArrayList<>();
-
-        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
-            View item = mMenuContainer.getChildAt(i);
-            if (isAnimatable(item)) {
-                al.addAll(helper.getShowAnimation(item, d, del*x));
-                x += 1;
-
-            }
-        }
-        mOpenAnimatorSet.playTogether(al);
-        mOpenAnimatorSet.setStartDelay(1000);
-    }
-
-    boolean isAnimatable(View view) {
-        String tag = (String) view.getTag();
-        if (tag != null && (tag == MenuItemStructure.TEXT.getTag()
-                || tag == MenuItemStructure.ICON.getTag()
-                || tag == MenuItemStructure.ICON_TEXT.getTag())) {
-            return true;
-        }
-        return false;
-    }
-
-    int countAnimatables() {
-        int count = 0;
-        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
-            View menuItem = mMenuContainer.getChildAt(i);
-            if (isAnimatable(menuItem)) {
-                count++;
-            }
-        }
-        return count;
-    }
+//
+//    private void buildOpenAnimatorSet() {
+//        int dt = 5000;
+//        animCount = countAnimatables();
+//        int d = dt / animCount;
+//        int del = d/2;
+//        int x = 0;
+//
+//        List<Animator> al = new ArrayList<>();
+//
+//        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
+//            View item = mMenuContainer.getChildAt(i);
+//            if (isAnimatable(item)) {
+//                al.addAll(helper.getShowAnimation(item, d, del*x));
+//                x += 1;
+//
+//            }
+//        }
+//        mOpenAnimatorSet.playTogether(al);
+//        mOpenAnimatorSet.setStartDelay(1000);
+//    }
+//
+//    boolean isAnimatable(View view) {
+//        String tag = (String) view.getTag();
+//        if (tag != null && (tag == MenuItemStructure.TEXT.getTag()
+//                || tag == MenuItemStructure.ICON.getTag()
+//                || tag == MenuItemStructure.ICON_TEXT.getTag())) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    int countAnimatables() {
+//        int count = 0;
+//        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
+//            View menuItem = mMenuContainer.getChildAt(i);
+//            if (isAnimatable(menuItem)) {
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
 
 }

@@ -9,13 +9,13 @@ import android.widget.ImageView;
 
 public class Theme {
 
-    public int getMenuItemWidth() {
-        return 250; // to DP
-    }
+//    public int getMenuItemWidth() {
+//        return 250; // to DP
+//    }
 
-    public int getMenuItemHeight() {
-        return 60;  // to DP
-    }
+//    public int getMenuItemHeight() {
+//        return 60;  // to DP
+//    }
 
 //    ------------------------
 
