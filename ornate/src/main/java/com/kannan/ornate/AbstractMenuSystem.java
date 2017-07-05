@@ -26,6 +26,7 @@ public abstract class AbstractMenuSystem {
     protected MenuOrientation mMenuOrientation = MenuOrientation.VERTICAL;
 //    protected MenuAnimationDirection mMenuAnimationDirection = MenuAnimationDirection.LEFT_TO_RIGHT;
 //    protected MenuStretchMode mMenuStretchMode = MenuStretchMode.WRAP_CONTENT;
+    protected ThemeHelper themeHelper;
 
     protected List<MenuItem> mMenuItems;
     private RelativeLayout mRootContainer;
@@ -52,6 +53,7 @@ public abstract class AbstractMenuSystem {
         setupLayouts();
 //        mMenuContainer.setBackgroundColor(Color.GRAY);
         createMenuViews();
+        themeHelper.applyForScrollContainer(mScrollView);
         initialiseViewProperties();
         buildAnimatorSet();
     }
@@ -151,7 +153,7 @@ public abstract class AbstractMenuSystem {
     private FrameLayout createScrollView(MenuOrientation orientation) {
         return orientation == MenuOrientation.HORIZONTAL
                 ? new HorizontalScrollView(mContext)
-                : new ScrollView(mContext);
+                : new MaxScrollView(mContext);
     }
 
     abstract void attachMenuContainer(FrameLayout parent, MenuOrientation orientation, int width, int height);
@@ -189,6 +191,10 @@ public abstract class AbstractMenuSystem {
 
     public void setMenuOrientation(MenuOrientation orientation) {
         mMenuOrientation = orientation;
+    }
+
+    public void setTheme(Theme theme) {
+        themeHelper = new ThemeHelper(theme, mMenuOrientation);
     }
 
     public void setDividerSpacing(int spacing) {

@@ -9,13 +9,13 @@ import android.widget.ImageView;
 
 public class Theme {
 
-//    public int getMenuItemWidth() {
-//        return 250; // to DP
-//    }
+    public int getMaxWidth() {
+        return 400; // to DP
+    }
 
-//    public int getMenuItemHeight() {
-//        return 60;  // to DP
-//    }
+    public int getMaxHeight() {
+        return 700;  // to DP
+    }
 
 //    ------------------------
 
@@ -37,15 +37,15 @@ public class Theme {
     }
 
     public int getDividerThickness() {
-        return 1;   // to DP;
+        return 30;   // to DP;
     }
 
     public int getDividerColor() {
-        return Color.TRANSPARENT;
+        return Color.BLACK;
     }
 
     public int getSpacingBetweenElements() {
-        return 20; // to DP;
+        return 100; // to DP;
     }
 
     public int getMenuItemBgColor() {

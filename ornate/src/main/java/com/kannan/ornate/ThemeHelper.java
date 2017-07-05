@@ -35,21 +35,22 @@ public class ThemeHelper {
 
     public void applyForSpacer(Space space) {
         ViewGroup wrapper = (ViewGroup) space.getParent();
-        if (wrapper.getTag() == MenuItemType.ICON_AFTER_TEXT
-                || wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT) {
+        if (wrapper.getTag() == MenuItemType.ICON_AFTER_TEXT.getTag()
+                || wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT.getTag()) {
             space.getLayoutParams().width = mTheme.getSpacingBetweenElements();
             space.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-        } else if (wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT
-                || wrapper.getTag() == MenuItemType.ICON_BELOW_TEXT) {
+        } else if (wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT.getTag()
+                || wrapper.getTag() == MenuItemType.ICON_BELOW_TEXT.getTag()) {
             space.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             space.getLayoutParams().height = mTheme.getSpacingBetweenElements();
         }
+//        space.setBackgroundColor(mTheme.getDividerColor());
         // check for text only / icon only ?
     }
 
-    public void applyForDivider(Space divider) {
-        if (divider.getTag() == MenuElementType.ELEMENT_DEVIDER) {
-            if (mOrientation == MenuOrientation.VERTICAL) {
+    public void applyForDivider(View divider) {
+        if (divider.getTag() == MenuElementType.ELEMENT_DEVIDER.getTag()) {   // getTag() in enum
+            if (mOrientation == MenuOrientation.HORIZONTAL) {
                 divider.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 divider.getLayoutParams().width = mTheme.getDividerThickness();
             } else {
@@ -83,16 +84,16 @@ public class ThemeHelper {
 
 
 //        check for spacer element first;
-        if (wrapper.getTag() == MenuItemType.ICON_ONLY) {
+        if (wrapper.getTag() == MenuItemType.ICON_ONLY.getTag()) {
             applyForImageView((ImageView) wrapper.getChildAt(0));
-        } else if (wrapper.getTag() == MenuItemType.TEXT_ONLY) {
+        } else if (wrapper.getTag() == MenuItemType.TEXT_ONLY.getTag()) {
             applyForTextView((TextView) wrapper.getChildAt(0));
         } else {
             View icon;
             View text;
             View space;
-            if (wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT
-                    || wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT) {
+            if (wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT.getTag()
+                    || wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT.getTag()) {
                 icon = wrapper.getChildAt(0);
                 space = wrapper.getChildAt(1);
                 text = wrapper.getChildAt(2);
@@ -127,6 +128,9 @@ public class ThemeHelper {
     // should be called only after all children are set layoutparams
     // to hack max width / height
     public void applyForScrollContainer(FrameLayout scrollView) {
-
+        if (scrollView instanceof MaxScrollView) {
+            ((MaxScrollView) scrollView).setmMaxWidth(mTheme.getMaxWidth());
+            ((MaxScrollView) scrollView).setmaxHeight(mTheme.getMaxHeight());
+        }
     }
 }

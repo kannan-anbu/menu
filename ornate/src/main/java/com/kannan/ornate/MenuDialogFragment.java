@@ -34,7 +34,7 @@ public class MenuDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setStyle(STYLE_NO_FRAME, R.style.MenuDialogFragmentStyle);
+        setStyle(STYLE_NO_FRAME, R.style.MenuDialogFragmentStyle);
 //        if (getArguments() != null) {
 //            mMenuOptions = (MenuDialogFragmentOptions) getArguments().getSerializable(BUNDLE_MENU_OPTIONS);
 //        }
@@ -72,7 +72,7 @@ public class MenuDialogFragment extends DialogFragment {
 //        mMenuSystem.setDividerSpacing((int) mMenuOptions.getDividerSpacingDP());
 //        mMenuSystem.setMenuAnimationDirection(mMenuOptions.getMenuAnimationDirection());
 //        mMenuSystem.setMenuOrientation(mMenuOptions.getMenuOrientation());
-//        mMenuSystem.build();
+        mMenuSystem.buildUpon(mRootContainer);
 //        mMenuSystem.toggleMenu();
     }
 }

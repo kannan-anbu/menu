@@ -33,6 +33,7 @@ public class MenuBuilder {
         menuSystem.setMenuItems(mi);
         menuSystem.setMenuGravity(gravity);
         menuSystem.setMenuOrientation(orientation);
+        menuSystem.setTheme(theme);
         frag.setMenuSystem(menuSystem);
 
         return frag;

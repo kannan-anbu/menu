@@ -6,17 +6,39 @@ package com.kannan.ornate;
 
 public enum MenuElementType {
 
-    ELEMENT_TEXT(0),
+    ELEMENT_TEXT(0) {
+        @Override
+        String getTag() {
+            return "element_text";
+        }
+    },
 
-    ELEMENT_ICON(1),
+    ELEMENT_ICON(1) {
+        @Override
+        String getTag() {
+            return "element_icon";
+        }
+    },
 
-    ELEMENT_SPACER(2),
+    ELEMENT_SPACE(2) {
+        @Override
+        String getTag() {
+            return "element_space";
+        }
+    },
 
-    ELEMENT_DEVIDER(3);
+    ELEMENT_DEVIDER(3) {
+        @Override
+        String getTag() {
+            return "element_devider";
+        }
+    };
 
     int mId;
 
     MenuElementType(int id) {
         mId = id;
     }
+
+    abstract String getTag();
 }

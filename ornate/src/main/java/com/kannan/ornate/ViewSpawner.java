@@ -1,7 +1,7 @@
 package com.kannan.ornate;
 
 import android.content.Context;
-import android.support.v4.widget.Space;
+import android.widget.Space;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,13 +116,23 @@ public class ViewSpawner {
 
     public static View spawnSpaceView(Context context, int width, int height) {
         Space space = new Space(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                width > -1 ? width : ViewGroup.LayoutParams.MATCH_PARENT,
-                height > -1 ? height : ViewGroup.LayoutParams.MATCH_PARENT
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                width, height
         );
         space.setLayoutParams(lp);
 
         return space;
+    }
+
+    public static View spawnDividerView(Context context, int width, int height) {
+        // don't use View.Space; colors can't be set
+        View divider = new View(context);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                width, height
+        );
+        divider.setLayoutParams(lp);
+
+        return divider;
     }
 
 
@@ -159,7 +169,7 @@ public class ViewSpawner {
 
     public static LinearLayout spawnLinearLayout(Context context) {
         LinearLayout layout = new LinearLayout(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );

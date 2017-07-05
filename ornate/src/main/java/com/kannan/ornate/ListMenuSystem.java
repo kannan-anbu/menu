@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Space;
 
 import com.nineoldandroids.animation.Animator;
 
@@ -29,7 +30,8 @@ public class ListMenuSystem extends AbstractMenuSystem {
 
     @Override
     protected void createMenuViews() {
-        for (MenuItem menuItem : mMenuItems) {
+        for (int i = 0; i < mMenuItems.size(); i += 1) {
+            MenuItem menuItem = mMenuItems.get(i);
             switch (menuItem.getType()) {
                 case TEXT_ONLY:
                     View wrappedText = ViewSpawner.spawnWrappedTextView(mContext, menuItem);
@@ -46,8 +48,11 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     wrapper.setOrientation(LinearLayout.HORIZONTAL);
                     View text = ViewSpawner.spawnTextView(mContext, menuItem);
                     View icon = ViewSpawner.spawnImageView(mContext, menuItem);
+                    View space = ViewSpawner.spawnSpaceView(mContext, 1, 1);
                     wrapper.addView(icon);
+                    wrapper.addView(space);
                     wrapper.addView(text);
+                    wrapper.setTag(menuItem.getType().getTag());
                     mMenuContainer.addView(wrapper);
                     break;
                 }
@@ -56,19 +61,36 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     wrapper.setOrientation(LinearLayout.HORIZONTAL);
                     View text = ViewSpawner.spawnTextView(mContext, menuItem);
                     View icon = ViewSpawner.spawnImageView(mContext, menuItem);
+                    View space = ViewSpawner.spawnSpaceView(mContext, 1, 1);
                     wrapper.addView(text);
+                    wrapper.addView(space);
                     wrapper.addView(icon);
+                    wrapper.setTag(menuItem.getType().getTag());
                     mMenuContainer.addView(wrapper);
                     break;
                 }
             }
 
-            //change
-//            mMenuContainer.addView(
-//                    ViewSpawner.spawnSpaceView(mContext, -1, 30)
-//            );
+            if (i < mMenuItems.size() - 1) {
+                View divider = ViewSpawner.spawnDividerView(mContext, 1, 1);
+                divider.setTag(MenuElementType.ELEMENT_DEVIDER.getTag());
+                mMenuContainer.addView(divider);
+            }
         }
 //        helper = new AlphaAnimationHelper(mMenuAnimationDirection);
+
+        applyTheme();
+    }
+
+    private void applyTheme() {
+        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
+            View child = mMenuContainer.getChildAt(i);
+            if (child.getTag() == MenuElementType.ELEMENT_DEVIDER.getTag()) {
+                themeHelper.applyForDivider(child);
+            } else {
+                themeHelper.applyForMenuItem((LinearLayout) child);
+            }
+        }
     }
 
     @Override
