@@ -36,7 +36,7 @@ public class Theme {
         return 20;  // to DP;
     }
 
-    public int getDividerWidth() {
+    public int getDividerThickness() {
         return 1;   // to DP;
     }
 

@@ -1,11 +1,11 @@
 package com.kannan.ornate;
 
-import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 /**
@@ -32,6 +32,33 @@ public class ThemeHelper {
         imageView.setScaleType(mTheme.getImageScaleType());
     }
 
+    public void applyForSpacer(Space space) {
+        ViewGroup wrapper = (ViewGroup) space.getParent();
+        if (wrapper.getTag() == MenuItemType.ICON_AFTER_TEXT
+                || wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT) {
+            space.getLayoutParams().width = mTheme.getSpacingBetweenElements();
+            space.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+        } else if (wrapper.getTag() == MenuItemType.ICON_ABOVE_TEXT
+                || wrapper.getTag() == MenuItemType.ICON_BELOW_TEXT) {
+            space.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+            space.getLayoutParams().height = mTheme.getSpacingBetweenElements();
+        }
+        // check for text only / icon only ?
+    }
+
+    public void applyForDivider(Space divider) {
+        if (divider.getTag() == MenuElementType.ELEMENT_DEVIDER) {
+            if (mOrientation == MenuOrientation.VERTICAL) {
+                divider.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                divider.getLayoutParams().width = mTheme.getDividerThickness();
+            } else {
+                divider.getLayoutParams().height = mTheme.getDividerThickness();
+                divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+            }
+            divider.setBackgroundColor(mTheme.getDividerColor());
+        }
+    }
+
     public void applyForMenuItem(LinearLayout wrapper) {
         int w, h;
         if (mOrientation == MenuOrientation.HORIZONTAL) {
@@ -55,35 +82,42 @@ public class ThemeHelper {
 
 
 //        check for spacer element first;
-        if (wrapper.getTag() == MenuItemType.ITEM_ICON) {
+        if (wrapper.getTag() == MenuItemType.ICON_ONLY) {
             applyForImageView((ImageView) wrapper.getChildAt(0));
-        } else if (wrapper.getTag() == MenuItemType.ITEM_TEXT) {
+        } else if (wrapper.getTag() == MenuItemType.TEXT_ONLY) {
             applyForTextView((TextView) wrapper.getChildAt(0));
         } else {
-            View child1 = wrapper.getChildAt(0);
-            View child2 = wrapper.getChildAt(1);
-            if (wrapper.getTag() == MenuItemType.ITEM_ICON_TEXT) {
-                applyForImageView((ImageView) child1);
-                applyForTextView((TextView) child2);
+            View icon;
+            View text;
+            View space;
+            if (wrapper.getTag() == MenuItemType.ICON_BEFORE_TEXT) {
+                icon = wrapper.getChildAt(0);
+                space = wrapper.getChildAt(1);
+                text = wrapper.getChildAt(2);
             } else {
-                applyForTextView((TextView) child1);
-                applyForImageView((ImageView) child2);
+                text = wrapper.getChildAt(0);
+                space = wrapper.getChildAt(1);
+                icon = wrapper.getChildAt(2);
             }
 
-            // increase padding of first element in menuitem to simulate spacing
-            // between elements
-            int paddingToIncrease = mTheme.getSpacingBetweenElements();
-            int newPaddingRight = 0;
-            int newPaddingBottom = 0;
-
-            // check for type of menusystem
-
-            child1.setPadding(
-                    child1.getPaddingLeft(),
-                    child1.getPaddingTop(),
-                    child1.getPaddingRight() + mTheme.getSpacingBetweenElements(),
-                    child1.getPaddingBottom()
-            );
+            applyForTextView((TextView) text);
+            applyForImageView((ImageView) icon);
+            applyForSpacer((Space) space);
+//
+//            // increase padding of first element in menuitem to simulate spacing
+//            // between elements
+//            int paddingToIncrease = mTheme.getSpacingBetweenElements();
+//            int newPaddingRight = 0;
+//            int newPaddingBottom = 0;
+//
+//            // check for type of menusystem
+//
+//            child1.setPadding(
+//                    child1.getPaddingLeft(),
+//                    child1.getPaddingTop(),
+//                    child1.getPaddingRight() + mTheme.getSpacingBetweenElements(),
+//                    child1.getPaddingBottom()
+//            );
         }
 
     }

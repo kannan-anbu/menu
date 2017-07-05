@@ -10,7 +10,9 @@ public enum MenuElementType {
 
     ELEMENT_ICON(1),
 
-    ELEMENT_SPACER(2);
+    ELEMENT_SPACER(2),
+
+    ELEMENT_DEVIDER(3);
 
     int mId;
 

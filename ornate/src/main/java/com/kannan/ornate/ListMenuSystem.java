@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.nineoldandroids.animation.Animator;
 
@@ -32,17 +31,17 @@ public class ListMenuSystem extends AbstractMenuSystem {
     protected void createMenuViews() {
         for (MenuItem menuItem : mMenuItems) {
             switch (menuItem.getType()) {
-                case ITEM_TEXT:
+                case TEXT_ONLY:
                     View wrappedText = ViewSpawner.spawnWrappedTextView(mContext, menuItem);
                     wrappedText.setTag(menuItem.getType().getTag());
                     mMenuContainer.addView(wrappedText);
                     break;
-                case ITEM_ICON:
+                case ICON_ONLY:
                     View wrappedIcon = ViewSpawner.spawnWrappedImageView(mContext, menuItem);
                     wrappedIcon.setTag(menuItem.getType().getTag());
                     mMenuContainer.addView(wrappedIcon);
                     break;
-                case ITEM_ICON_TEXT: {
+                case ICON_BEFORE_TEXT: {
                     LinearLayout wrapper = ViewSpawner.spawnLinearLayout(mContext);
                     wrapper.setOrientation(LinearLayout.HORIZONTAL);
                     View text = ViewSpawner.spawnTextView(mContext, menuItem);
@@ -52,7 +51,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     mMenuContainer.addView(wrapper);
                     break;
                 }
-                case ITEM_TEXT_ICON: {
+                case ICON_AFTER_TEXT: {
                     LinearLayout wrapper = ViewSpawner.spawnLinearLayout(mContext);
                     wrapper.setOrientation(LinearLayout.HORIZONTAL);
                     View text = ViewSpawner.spawnTextView(mContext, menuItem);
