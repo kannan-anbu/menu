@@ -7,12 +7,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.kannan.ornate.MenuElementType;
+import com.kannan.ornate.MenuItemType;
 import com.kannan.ornate.MenuPosition;
 import com.kannan.ornate.MenuItem;
 import com.kannan.ornate.MenuOrientation;
+import com.kannan.ornate.animation.AnimationHelper;
+import com.kannan.ornate.animation.AnimationModel;
 import com.kannan.ornate.theme.ThemeHelper;
 import com.kannan.ornate.utils.ViewSpawner;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +29,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
 
     private Context mContext;
 
-    int animCount = 0;
-
-    LinearLayout mMenuContainer;
+    private LinearLayout mMenuContainer;
 
     public ListMenuSystem(Context context, List<MenuItem> menuItems,
                           MenuPosition gravity, MenuOrientation orientation) {
@@ -49,19 +53,6 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     wrappedIcon.setTag(menuItem.getType().getTag());
                     mMenuContainer.addView(wrappedIcon);
                     break;
-                case ICON_BEFORE_TEXT: {
-                    LinearLayout wrapper = ViewSpawner.spawnLinearLayout(mContext);
-                    wrapper.setOrientation(LinearLayout.HORIZONTAL);
-                    View text = ViewSpawner.spawnTextView(mContext, menuItem);
-                    View icon = ViewSpawner.spawnImageView(mContext, menuItem);
-                    View space = ViewSpawner.spawnSpaceView(mContext, 1, 1);
-                    wrapper.addView(icon);
-                    wrapper.addView(space);
-                    wrapper.addView(text);
-                    wrapper.setTag(menuItem.getType().getTag());
-                    mMenuContainer.addView(wrapper);
-                    break;
-                }
                 case ICON_AFTER_TEXT: {
                     LinearLayout wrapper = ViewSpawner.spawnLinearLayout(mContext);
                     wrapper.setOrientation(LinearLayout.HORIZONTAL);
@@ -75,6 +66,20 @@ public class ListMenuSystem extends AbstractMenuSystem {
                     mMenuContainer.addView(wrapper);
                     break;
                 }
+                case ICON_BEFORE_TEXT:
+                default: {
+                    LinearLayout wrapper = ViewSpawner.spawnLinearLayout(mContext);
+                    wrapper.setOrientation(LinearLayout.HORIZONTAL);
+                    View text = ViewSpawner.spawnTextView(mContext, menuItem);
+                    View icon = ViewSpawner.spawnImageView(mContext, menuItem);
+                    View space = ViewSpawner.spawnSpaceView(mContext, 1, 1);
+                    wrapper.addView(icon);
+                    wrapper.addView(space);
+                    wrapper.addView(text);
+                    wrapper.setTag(menuItem.getType().getTag());
+                    mMenuContainer.addView(wrapper);
+                    break;
+                }
             }
 
             if (i < getMenuItemsCount() - 1) {
@@ -83,7 +88,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
                 mMenuContainer.addView(divider);
             }
         }
-//        helper = new AlphaAnimationHelper(mMenuAnimationDirection);
+//        helper = new AlphaAnimationModel(mMenuAnimationDirection);
 
     }
 
@@ -115,60 +120,67 @@ public class ListMenuSystem extends AbstractMenuSystem {
     }
 
     @Override
-    protected void initialiseViewProperties() {
+    protected void initialiseViewProperties(AnimationModel animationHelper) {
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View view = mMenuContainer.getChildAt(i);
-//            if (isAnimatable(view)) {
-//                helper.initViewProperties(view);
-//            }
+            if (isAnimatable(view)) {
+                animationHelper.initView(view);
+            }
         }
     }
 
     @Override
-    protected void buildAnimatorSet() {
-//        buildOpenAnimatorSet();
+    protected void buildAnimatorSet(AnimationModel animationModel) {
+        AnimatorSet openAnimSet = buildAnimatorSet(animationModel, true);
+        AnimatorSet closeAnimSet = buildAnimatorSet(animationModel, false);
+        super.setOpenAnimatorSet(openAnimSet);
+        super.setCloseAnimatorSet(closeAnimSet);
     }
-//
-//    private void buildOpenAnimatorSet() {
-//        int dt = 5000;
-//        animCount = countAnimatables();
-//        int d = dt / animCount;
-//        int del = d/2;
+
+    private AnimatorSet buildAnimatorSet(AnimationModel animationModel, boolean isOpenAnimation) {
+        int duration = super.getAnimationDuration();
+//        int animCount = countAnimatables();
+        float animationOverlapFactor = 0.5f;
+        int delay = (int) ((1f - animationOverlapFactor) * duration);
 //        int x = 0;
-//
-//        List<Animator> al = new ArrayList<>();
-//
-//        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
-//            View item = mMenuContainer.getChildAt(i);
-//            if (isAnimatable(item)) {
-//                al.addAll(helper.getShowAnimation(item, d, del*x));
-//                x += 1;
-//
-//            }
-//        }
-//        mOpenAnimatorSet.playTogether(al);
-//        mOpenAnimatorSet.setStartDelay(1000);
-//    }
-//
-//    boolean isAnimatable(View view) {
-//        String tag = (String) view.getTag();
-//        if (tag != null && (tag == MenuItemStructure.TEXT.getTag()
-//                || tag == MenuItemStructure.ICON.getTag()
-//                || tag == MenuItemStructure.ICON_TEXT.getTag())) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    int countAnimatables() {
-//        int count = 0;
-//        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
-//            View menuItem = mMenuContainer.getChildAt(i);
-//            if (isAnimatable(menuItem)) {
-//                count++;
-//            }
-//        }
-//        return count;
-//    }
+
+        List<Animator> al = new ArrayList<>();
+
+        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
+            View item = mMenuContainer.getChildAt(i);
+            if (isAnimatable(item)) {
+                al.addAll(
+                        isOpenAnimation
+                                ? animationModel.getOpenAnimations(item, duration, delay * i)
+                                : animationModel.getCloseAnimations(item, duration, delay * i)
+                );
+            }
+        }
+
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.playTogether(al);
+//        animSet.setDuration(10000);
+
+        return animSet;
+    }
+
+    private boolean isAnimatable(View view) {
+        String tag = (String) view.getTag();
+        return tag != null && (tag == MenuItemType.TEXT_ONLY.getTag()
+                || tag == MenuItemType.ICON_ONLY.getTag()
+                || tag == MenuItemType.ICON_BEFORE_TEXT.getTag()
+                || tag == MenuItemType.ICON_AFTER_TEXT.getTag());
+    }
+
+    private int countAnimatables() {
+        int count = 0;
+        for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
+            View menuItem = mMenuContainer.getChildAt(i);
+            if (isAnimatable(menuItem)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 }

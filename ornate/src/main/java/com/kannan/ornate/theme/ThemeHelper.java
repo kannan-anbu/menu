@@ -36,7 +36,7 @@ public class ThemeHelper {
         textView.setTextAppearance(mContext, mTheme.getTextAppearanceStyle()); // needs context
 
         // only for ListMenuSystem
-        ((LinearLayout.LayoutParams) textView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
+        ((LinearLayout.LayoutParams) textView.getLayoutParams()).gravity = Gravity.CENTER;
 
 
     }
@@ -45,7 +45,7 @@ public class ThemeHelper {
         imageView.setScaleType(mTheme.getImageScaleType());
 
         // only for ListMenuSystem
-        ((LinearLayout.LayoutParams) imageView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
+        ((LinearLayout.LayoutParams) imageView.getLayoutParams()).gravity = Gravity.CENTER;
 
     }
 

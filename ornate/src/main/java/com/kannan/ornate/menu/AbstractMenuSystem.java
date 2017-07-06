@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.kannan.ornate.animation.AlphaAnimationModel;
+import com.kannan.ornate.animation.AnimationModel;
 import com.kannan.ornate.widget.MaxHorizontalScrollView;
 import com.kannan.ornate.widget.MaxVerticalScrollView;
 import com.kannan.ornate.MenuPosition;
@@ -12,6 +14,7 @@ import com.kannan.ornate.MenuItem;
 import com.kannan.ornate.MenuOrientation;
 import com.kannan.ornate.theme.Theme;
 import com.kannan.ornate.theme.ThemeHelper;
+import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 
 import java.util.List;
@@ -24,6 +27,10 @@ public abstract class AbstractMenuSystem {
 
     private static final int SCROLL_CONTAINER_MAX_WIDTH = 600;      // to dp
     private static final int SCROLL_CONTAINER_MAX_HEIGHT = 700;      // to dp
+
+    private static final int DEF_ANIMATION_DURATION = 200; // milli seconds
+    private static final int MIN_ANIMATION_DURATION = 0; // milli seconds
+    private static final int MAX_ANIMATION_DURATION = 1000;             // change max range
 
 
     private Context mContext;
@@ -41,6 +48,9 @@ public abstract class AbstractMenuSystem {
     private Theme.Margin mMenuMargin;
     private Theme.Padding mMenuPadding;
 
+    private AnimationModel mAnimationModel;
+    private int mAnimationDuration;
+
     private AnimatorSet mOpenAnimatorSet;
     private AnimatorSet mCloseAnimatorSet;
 
@@ -53,8 +63,12 @@ public abstract class AbstractMenuSystem {
         mMenuItems = menuItems;
         mMenuPosition = gravity;
         mMenuOrientation = orientation;
-        mOpenAnimatorSet = new AnimatorSet();
-        mCloseAnimatorSet = new AnimatorSet();
+        mAnimationModel = new AlphaAnimationModel();        // change ?
+        mAnimationDuration = DEF_ANIMATION_DURATION;
+        mOpenAnimatorSet = null;
+        mCloseAnimatorSet = null;
+        mIsMenuOpen = false;
+        mIsAnimating = false;
     }
 
     public void buildUpon(RelativeLayout rootContainer) {
@@ -65,8 +79,8 @@ public abstract class AbstractMenuSystem {
         if (mThemeHelper != null) {
             applyTheme(mThemeHelper);
         }
-        initialiseViewProperties();
-        buildAnimatorSet();
+        initialiseViewProperties(mAnimationModel);
+        buildAnimatorSet(mAnimationModel);
     }
 
 
@@ -219,22 +233,69 @@ public abstract class AbstractMenuSystem {
 
     abstract void applyTheme(ThemeHelper mThemeHelper);
 
-    abstract void initialiseViewProperties();
+    abstract void initialiseViewProperties(AnimationModel animationHelper);
 
-    abstract void buildAnimatorSet();
+    abstract void buildAnimatorSet(AnimationModel animationHelper);
 
     public void toggleMenu() {
-//        if (!mIsAnimating) {
-//            change mIsAnimating
-//            if (mIsMenuOpen) {
-        initialiseViewProperties();
+        if (!mIsAnimating) {
+            // control variables will be changed accordingly in AnimationListeners
+            if (mIsMenuOpen) {
+//                initialiseViewProperties(mAnimationModel);  // need this ?
+                mCloseAnimatorSet.start();
+            } else {
                 mOpenAnimatorSet.start();
-//            } else {
-//                mCloseAnimatorSet.start();
-//            }
-//            mIsMenuOpen = !mIsMenuOpen;
-//        }
+            }
+        }
     }
+
+    private Animator.AnimatorListener mOpenAnimatorListener = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+            mIsAnimating = true;
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            mIsAnimating = false;
+            mIsMenuOpen = true;
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            mIsAnimating = false;
+            mIsMenuOpen = true;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
+
+    private Animator.AnimatorListener mCloseAnimatorListener = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+            mIsAnimating = true;
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            mIsAnimating = false;
+            mIsMenuOpen = false;
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            mIsAnimating = false;
+            mIsMenuOpen = false;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
 
     public void setMenuItems(List<MenuItem> menuItems) {
         mMenuItems = menuItems;
@@ -264,9 +325,26 @@ public abstract class AbstractMenuSystem {
         mMenuPadding = new Theme.Padding(left, top, right, bottom);
     }
 
-//    public void setDividerSpacing(int spacing) {
-//        mDividerSpacing = spacing;
-//    }
+    protected void setOpenAnimatorSet(AnimatorSet animSet) {
+        mOpenAnimatorSet = animSet;
+        mOpenAnimatorSet.addListener(mOpenAnimatorListener);
+    }
+
+    protected void setCloseAnimatorSet(AnimatorSet animSet) {
+        mCloseAnimatorSet = animSet;
+        mCloseAnimatorSet.addListener(mCloseAnimatorListener);
+    }
+
+    public void setAnimationDuration(int millis) {
+        if (millis < MIN_ANIMATION_DURATION || millis > MAX_ANIMATION_DURATION) {
+            millis = DEF_ANIMATION_DURATION;
+        }
+        mAnimationDuration = millis;
+    }
+
+    protected int getAnimationDuration() {
+        return mAnimationDuration;
+    }
 
     public int getMenuItemsCount() {
         return mMenuItems.size();

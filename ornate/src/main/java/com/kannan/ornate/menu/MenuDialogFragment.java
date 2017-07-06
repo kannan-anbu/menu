@@ -1,7 +1,9 @@
 package com.kannan.ornate.menu;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -49,7 +51,8 @@ public class MenuDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.menu_dialog_fragment, container, false);
 
         mRootContainer = (RelativeLayout) root.findViewById(R.id.root_container);
-        initMenuSystem();
+
+        //remove
         mRootContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,25 +60,19 @@ public class MenuDialogFragment extends DialogFragment {
             }
         });
 
+        initMenuSystem();
+
         return root;
     }
-
-
-
 
     public void setMenuSystem(AbstractMenuSystem ms) {
         mMenuSystem = ms;
     }
 
-
-
     private void initMenuSystem() {
-//        mMenuSystem = new ListMenuSystem(getContext(), mRootContainer, mMenuOptions.getMenuItems());
-//        mMenuSystem.setMenuGravity(mMenuOptions.getMenuGravity());
-//        mMenuSystem.setDividerSpacing((int) mMenuOptions.getDividerSpacingDP());
-//        mMenuSystem.setMenuAnimationDirection(mMenuOptions.getMenuAnimationDirection());
-//        mMenuSystem.setMenuOrientation(mMenuOptions.getMenuOrientation());
-        mMenuSystem.buildUpon(mRootContainer);
-//        mMenuSystem.toggleMenu();
+        if (mMenuSystem != null) {
+            mMenuSystem.buildUpon(mRootContainer);
+            mMenuSystem.toggleMenu();
+        }
     }
 }
