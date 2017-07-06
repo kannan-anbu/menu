@@ -22,7 +22,7 @@ import java.util.List;
 
 public abstract class AbstractMenuSystem {
 
-    private static final int SCROLL_CONTAINER_MAX_WIDTH = 400;      // to dp
+    private static final int SCROLL_CONTAINER_MAX_WIDTH = 600;      // to dp
     private static final int SCROLL_CONTAINER_MAX_HEIGHT = 700;      // to dp
 
 
@@ -71,10 +71,16 @@ public abstract class AbstractMenuSystem {
 
     protected void setupLayouts() {
 
-        FrameLayout.LayoutParams rootLP = (FrameLayout.LayoutParams) mRootContainer.getLayoutParams();
-        rootLP.setMargins(mMenuMargin.left, mMenuMargin.top, mMenuMargin.right, mMenuMargin.bottom);
-        mRootContainer.setPadding(mMenuPadding.left, mMenuPadding.top, mMenuPadding.right, mMenuPadding.bottom);
-
+        if (mMenuMargin != null && mMenuPadding != null) {
+//            RelativeLayout.LayoutParams rootLP = (RelativeLayout.LayoutParams) mRootContainer.getLayoutParams();
+            RelativeLayout.LayoutParams rootLP = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            );
+            rootLP.setMargins(mMenuMargin.left, mMenuMargin.top, mMenuMargin.right, mMenuMargin.bottom);
+            mRootContainer.setLayoutParams(rootLP);
+            mRootContainer.setPadding(mMenuPadding.left, mMenuPadding.top, mMenuPadding.right, mMenuPadding.bottom);
+        }
 //        if (mMenuStretchMode == MenuStretchMode.MATCH_PARENT) {
 //            if (mMenuPosition == MenuPosition.TOP_CENTER
 //                    || mMenuPosition == MenuPosition.BOTTOM_CENTER

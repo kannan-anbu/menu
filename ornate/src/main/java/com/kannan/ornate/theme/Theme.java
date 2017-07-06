@@ -11,11 +11,11 @@ import com.kannan.ornate.R;
 
 public class Theme {
 
-    public int getMaxWidth() {
+    public int getMenuItemWidth() {
         return 400; // to DP
     }
 
-    public int getMaxHeight() {
+    public int getMenuItemHeight() {
         return 700;  // to DP
     }
 

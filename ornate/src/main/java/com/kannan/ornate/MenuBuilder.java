@@ -3,6 +3,7 @@ package com.kannan.ornate;
 import android.content.Context;
 
 import com.kannan.ornate.menu.AbstractMenuSystem;
+import com.kannan.ornate.menu.ListMenuSystem;
 import com.kannan.ornate.menu.MenuDialogFragment;
 import com.kannan.ornate.theme.Theme;
 
@@ -38,10 +39,13 @@ public class MenuBuilder {
 
     public MenuDialogFragment build() {
         MenuDialogFragment frag = new MenuDialogFragment();
-        menuSystem.setMenuItems(mi);
-        menuSystem.setMenuGravity(gravity);
-        menuSystem.setMenuOrientation(orientation);
+        menuSystem = new ListMenuSystem(ctx, mi, gravity, orientation);
+//        menuSystem.setMenuItems(mi);
+//        menuSystem.setMenuGravity(gravity);
+//        menuSystem.setMenuOrientation(orientation);
         menuSystem.setTheme(theme);
+        menuSystem.setMenuMargin(0, 100, 0, 0);
+        menuSystem.setMenuPadding(10, 10, 10, 10);
         frag.setMenuSystem(menuSystem);
 
         return frag;

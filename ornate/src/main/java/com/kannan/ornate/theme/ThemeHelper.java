@@ -2,13 +2,11 @@ package com.kannan.ornate.theme;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
-import com.kannan.ornate.widget.MaxVerticalScrollView;
 import com.kannan.ornate.MenuElementType;
 import com.kannan.ornate.MenuItemType;
 import com.kannan.ornate.MenuOrientation;
@@ -69,9 +67,9 @@ public class ThemeHelper {
         int w, h;
         if (mOrientation == MenuOrientation.HORIZONTAL) {
                 w = ViewGroup.LayoutParams.WRAP_CONTENT;
-                h = ViewGroup.LayoutParams.MATCH_PARENT;
+                h = mTheme.getMenuItemHeight();
         } else {
-            w = ViewGroup.LayoutParams.MATCH_PARENT;
+            w = mTheme.getMenuItemWidth();
             h = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
         wrapper.getLayoutParams().height = h;
@@ -131,10 +129,10 @@ public class ThemeHelper {
 
     // should be called only after all children are set layoutparams
     // to hack max width / height
-    public void applyForScrollContainer(FrameLayout scrollView) {
-        if (scrollView instanceof MaxVerticalScrollView) {
-            ((MaxVerticalScrollView) scrollView).setmMaxWidth(mTheme.getMaxWidth());
-            ((MaxVerticalScrollView) scrollView).setmaxHeight(mTheme.getMaxHeight());
-        }
-    }
+//    public void applyForScrollContainer(FrameLayout scrollView) {
+//        if (scrollView instanceof MaxVerticalScrollView) {
+//            ((MaxVerticalScrollView) scrollView).setmMaxWidth(mTheme.getMenuItemWidth());
+//            ((MaxVerticalScrollView) scrollView).setmaxHeight(mTheme.getMenuItemHeight());
+//        }
+//    }
 }

@@ -8,28 +8,28 @@ public enum MenuElementType {
 
     ELEMENT_TEXT(0) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "element_text";
         }
     },
 
     ELEMENT_ICON(1) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "element_icon";
         }
     },
 
     ELEMENT_SPACE(2) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "element_space";
         }
     },
 
     ELEMENT_DEVIDER(3) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "element_devider";
         }
     };
@@ -40,5 +40,5 @@ public enum MenuElementType {
         mId = id;
     }
 
-    abstract String getTag();
+    abstract public String getTag();
 }

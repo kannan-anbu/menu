@@ -10,42 +10,42 @@ public enum MenuItemType {
 
     ICON_ONLY(0) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_icon";
         }
     },
 
     TEXT_ONLY(1) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_text";
         }
     },
 
     ICON_BEFORE_TEXT(2) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_icon_text";
         }
     },
 
     ICON_AFTER_TEXT(3) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_text_icon";
         }
     },
 
     ICON_ABOVE_TEXT(4) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_icon_above_text";
         }
     },
 
     ICON_BELOW_TEXT(5) {
         @Override
-        String getTag() {
+        public String getTag() {
             return "item_icon_below_text";
         }
     };
@@ -56,5 +56,5 @@ public enum MenuItemType {
         mId = id;
     }
 
-    abstract String getTag();
+    abstract public String getTag();
 }
