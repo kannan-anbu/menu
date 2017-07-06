@@ -140,6 +140,11 @@ public class ViewSpawner {
 
     public static TextView spawnTextView(Context context, MenuItem menuItem) {
         TextView textView = new TextView(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        textView.setLayoutParams(lp);
         textView.setText(menuItem.getText());
 
         return textView;
@@ -147,6 +152,11 @@ public class ViewSpawner {
 
     public static ImageView spawnImageView(Context context, MenuItem menuItem) {
         ImageView imageView = new ImageView(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        imageView.setLayoutParams(lp);
 
         if (menuItem.getImageRes() != -1) {
             imageView.setImageResource(menuItem.getImageRes());

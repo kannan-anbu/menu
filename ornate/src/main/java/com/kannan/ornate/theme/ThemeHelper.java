@@ -1,9 +1,12 @@
 package com.kannan.ornate.theme;
 
+import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
@@ -17,22 +20,33 @@ import com.kannan.ornate.MenuOrientation;
 
 public class ThemeHelper {
 
+    private Context mContext;
+
     private Theme mTheme;
 
     private MenuOrientation mOrientation;
 
-    public ThemeHelper(Theme theme, MenuOrientation orientation) {
+    public ThemeHelper(Context context, Theme theme, MenuOrientation orientation) {
+        mContext = context;
         mTheme = theme;
         mOrientation = orientation;
     }
 
     public void applyForTextView(TextView textView) {
-//        textView.setTextAppearance(c, mTheme.getTextAppearanceStyle()); // needs context
+        textView.setTextAppearance(mContext, mTheme.getTextAppearanceStyle()); // needs context
+
+        // only for ListMenuSystem
+        ((LinearLayout.LayoutParams) textView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
+
 
     }
 
     public void applyForImageView(ImageView imageView) {
         imageView.setScaleType(mTheme.getImageScaleType());
+
+        // only for ListMenuSystem
+        ((LinearLayout.LayoutParams) imageView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
+
     }
 
     public void applyForSpacer(Space space) {
@@ -53,11 +67,11 @@ public class ThemeHelper {
     public void applyForDivider(View divider) {
         if (divider.getTag() == MenuElementType.ELEMENT_DEVIDER.getTag()) {   // getTag() in enum
             if (mOrientation == MenuOrientation.HORIZONTAL) {
-                divider.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 divider.getLayoutParams().width = mTheme.getDividerThickness();
+                divider.getLayoutParams().height = mTheme.getMenuItemHeight();
             } else {
+                divider.getLayoutParams().width = mTheme.getMenuItemWidth();
                 divider.getLayoutParams().height = mTheme.getDividerThickness();
-                divider.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             }
             divider.setBackgroundColor(mTheme.getDividerColor());
         }
@@ -66,11 +80,13 @@ public class ThemeHelper {
     public void applyForMenuItem(LinearLayout wrapper) {
         int w, h;
         if (mOrientation == MenuOrientation.HORIZONTAL) {
-                w = ViewGroup.LayoutParams.WRAP_CONTENT;
+//                w = ViewGroup.LayoutParams.WRAP_CONTENT;
+                w = mTheme.getMenuItemWidth();
                 h = mTheme.getMenuItemHeight();
         } else {
             w = mTheme.getMenuItemWidth();
-            h = ViewGroup.LayoutParams.WRAP_CONTENT;
+            h = mTheme.getMenuItemHeight();
+//            h = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
         wrapper.getLayoutParams().height = h;
         wrapper.getLayoutParams().width = w;
@@ -135,4 +151,8 @@ public class ThemeHelper {
 //            ((MaxVerticalScrollView) scrollView).setmaxHeight(mTheme.getMenuItemHeight());
 //        }
 //    }
+
+    public void applyForRootContainer(RelativeLayout root) {
+        root.setBackgroundColor(mTheme.getMenuBgColor());
+    }
 }

@@ -12,17 +12,17 @@ import com.kannan.ornate.R;
 public class Theme {
 
     public int getMenuItemWidth() {
-        return 400; // to DP
+        return 300; // to DP
     }
 
     public int getMenuItemHeight() {
-        return 700;  // to DP
+        return 200;  // to DP
     }
 
 //    ------------------------
 
     public int getTextAppearanceStyle() {
-        return R.style.TextAppearance_AppCompat;
+        return R.style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
     }
 
     public ImageView.ScaleType getImageScaleType() {
@@ -30,28 +30,32 @@ public class Theme {
     }
 
     public Padding getMenuItemPadding() {
-        return new Padding(10, 10, 10, 10);
+        return new Padding(15, 15, 15, 15);
         // to DP
     }
 
-    public int getMenuItemSpacing() {
-        return 20;  // to DP;
-    }
+//    public int getMenuItemSpacing() {
+//        return 20;  // to DP;
+//    }
 
     public int getDividerThickness() {
-        return 30;   // to DP;
+        return 10;   // to DP;
     }
 
     public int getDividerColor() {
-        return Color.BLACK;
+        return Color.TRANSPARENT;
     }
 
     public int getSpacingBetweenElements() {
-        return 100; // to DP;
+        return 20; // to DP;
     }
 
     public int getMenuItemBgColor() {
-        return Color.TRANSPARENT;
+        return Color.WHITE;
+    }
+
+    public int getMenuBgColor() {
+        return Color.parseColor("#3f000000");
     }
 
 

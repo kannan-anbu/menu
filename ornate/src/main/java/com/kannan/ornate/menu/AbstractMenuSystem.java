@@ -61,6 +61,7 @@ public abstract class AbstractMenuSystem {
         mRootContainer = rootContainer;
         setupLayouts();
         createMenuViews();
+        mThemeHelper.applyForRootContainer(mRootContainer);
         if (mThemeHelper != null) {
             applyTheme(mThemeHelper);
         }
@@ -252,7 +253,7 @@ public abstract class AbstractMenuSystem {
     }
 
     public void setTheme(Theme theme) {
-        mThemeHelper = new ThemeHelper(theme, mMenuOrientation);
+        mThemeHelper = new ThemeHelper(mContext, theme, mMenuOrientation);
     }
 
     public void setMenuMargin(int left, int top, int right, int bottom) {
