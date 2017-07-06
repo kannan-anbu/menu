@@ -1,4 +1,4 @@
-package com.kannan.ornate;
+package com.kannan.ornate.menu;
 
 
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import com.kannan.ornate.R;
+import com.kannan.ornate.menu.AbstractMenuSystem;
 
 /**
  * Created by kannan on 28/6/17.

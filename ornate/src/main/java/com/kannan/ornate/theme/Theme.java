@@ -1,7 +1,9 @@
-package com.kannan.ornate;
+package com.kannan.ornate.theme;
 
 import android.graphics.Color;
 import android.widget.ImageView;
+
+import com.kannan.ornate.R;
 
 /**
  * Created by kannan on 3/7/17.
@@ -61,18 +63,25 @@ public class Theme {
 
 
 
-    class Padding {
+    public static class Padding {
 
         public int left;
         public int top;
         public int right;
         public int bottom;
 
-        Padding(int left, int top, int right, int bottom) {
+        public Padding(int left, int top, int right, int bottom) {
             this.left = left;
             this.top = top;
             this.right = right;
             this.bottom = bottom;
+        }
+    }
+
+    public static class Margin extends Padding {
+
+        public Margin(int left, int top, int right, int bottom) {
+            super(left, top, right, bottom);
         }
     }
 

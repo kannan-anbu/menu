@@ -2,6 +2,10 @@ package com.kannan.ornate;
 
 import android.content.Context;
 
+import com.kannan.ornate.menu.AbstractMenuSystem;
+import com.kannan.ornate.menu.MenuDialogFragment;
+import com.kannan.ornate.theme.Theme;
+
 import java.util.List;
 
 /**
@@ -12,13 +16,17 @@ public class MenuBuilder {
 
     public List<MenuItem> mi = null;
 
-    public MenuGravity gravity = MenuGravity.CENTER;
+    public MenuPosition gravity = MenuPosition.CENTER;
 
     public MenuOrientation orientation = MenuOrientation.VERTICAL;
 
     public Theme theme = null;
 
     public AbstractMenuSystem menuSystem;
+
+    private int[] ScreenMargin = new int[4];
+
+    private int[] padding = new int[4];
 
     public Context ctx;
 

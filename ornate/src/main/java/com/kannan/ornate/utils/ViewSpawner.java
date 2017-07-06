@@ -1,4 +1,4 @@
-package com.kannan.ornate;
+package com.kannan.ornate.utils;
 
 import android.content.Context;
 import android.widget.Space;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.kannan.ornate.MenuItem;
 
 /**
  * Created by kannan on 28/6/17.

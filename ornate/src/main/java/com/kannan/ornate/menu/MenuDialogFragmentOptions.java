@@ -1,4 +1,8 @@
-package com.kannan.ornate;
+package com.kannan.ornate.menu;
+
+import com.kannan.ornate.MenuPosition;
+import com.kannan.ornate.MenuItem;
+import com.kannan.ornate.MenuOrientation;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +15,7 @@ public class MenuDialogFragmentOptions implements Serializable {
 
     private List<MenuItem> mMenuItems;
 
-    private MenuGravity mMenuGravity;
+    private MenuPosition mMenuPosition;
 //    private MenuAnimationDirection mMenuAnimationDirection;
     private MenuOrientation mMenuOrientation;
     private float mDividerSpacingDP;
@@ -20,7 +24,7 @@ public class MenuDialogFragmentOptions implements Serializable {
     public MenuDialogFragmentOptions() {
         mMenuItems = null;
         mDividerSpacingDP = 0;
-        mMenuGravity = MenuGravity.CENTER;
+        mMenuPosition = MenuPosition.CENTER;
     }
 
     public void setMenuItems(List<MenuItem> menuItems) {
@@ -31,8 +35,8 @@ public class MenuDialogFragmentOptions implements Serializable {
         mDividerSpacingDP = spacing;
     }
 
-    public void setMenuGravity(MenuGravity gravity) {
-        mMenuGravity = gravity;
+    public void setMenuGravity(MenuPosition gravity) {
+        mMenuPosition = gravity;
     }
 
 //    public void setMenuAnimationDirection(MenuAnimationDirection direction) {
@@ -53,8 +57,8 @@ public class MenuDialogFragmentOptions implements Serializable {
         return mDividerSpacingDP;
     }
 
-    public MenuGravity getMenuGravity() {
-        return mMenuGravity;
+    public MenuPosition getMenuGravity() {
+        return mMenuPosition;
     }
 
 //    public MenuAnimationDirection getMenuAnimationDirection() {

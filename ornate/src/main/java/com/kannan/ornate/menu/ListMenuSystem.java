@@ -1,15 +1,18 @@
-package com.kannan.ornate;
+package com.kannan.ornate.menu;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Space;
 
-import com.nineoldandroids.animation.Animator;
+import com.kannan.ornate.MenuElementType;
+import com.kannan.ornate.MenuPosition;
+import com.kannan.ornate.MenuItem;
+import com.kannan.ornate.MenuOrientation;
+import com.kannan.ornate.theme.ThemeHelper;
+import com.kannan.ornate.utils.ViewSpawner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,20 +21,23 @@ import java.util.List;
 
 public class ListMenuSystem extends AbstractMenuSystem {
 
-//    AnimationHelper helper;
+    private Context mContext;
+
     int animCount = 0;
 
     LinearLayout mMenuContainer;
 
-    public ListMenuSystem(Context context) {
-        super(context);
+    public ListMenuSystem(Context context, List<MenuItem> menuItems,
+                          MenuPosition gravity, MenuOrientation orientation) {
+        super(context, menuItems, gravity, orientation);
+        mContext = context;
     }
 
 
     @Override
     protected void createMenuViews() {
-        for (int i = 0; i < mMenuItems.size(); i += 1) {
-            MenuItem menuItem = mMenuItems.get(i);
+        for (int i = 0; i < getMenuItemsCount(); i += 1) {
+            MenuItem menuItem = getMenuItem(i);
             switch (menuItem.getType()) {
                 case TEXT_ONLY:
                     View wrappedText = ViewSpawner.spawnWrappedTextView(mContext, menuItem);
@@ -71,7 +77,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
                 }
             }
 
-            if (i < mMenuItems.size() - 1) {
+            if (i < getMenuItemsCount() - 1) {
                 View divider = ViewSpawner.spawnDividerView(mContext, 1, 1);
                 divider.setTag(MenuElementType.ELEMENT_DEVIDER.getTag());
                 mMenuContainer.addView(divider);
@@ -79,10 +85,9 @@ public class ListMenuSystem extends AbstractMenuSystem {
         }
 //        helper = new AlphaAnimationHelper(mMenuAnimationDirection);
 
-        applyTheme();
     }
 
-    private void applyTheme() {
+    public void applyTheme(ThemeHelper themeHelper) {
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View child = mMenuContainer.getChildAt(i);
             if (child.getTag() == MenuElementType.ELEMENT_DEVIDER.getTag()) {
@@ -94,15 +99,16 @@ public class ListMenuSystem extends AbstractMenuSystem {
     }
 
     @Override
-    void attachMenuContainer(FrameLayout parent, MenuOrientation orientation, int width, int height) {
+    void attachMenuContainer(FrameLayout parent) {
         mMenuContainer = new LinearLayout(mContext);
         mMenuContainer.setOrientation(
-                orientation == MenuOrientation.HORIZONTAL
+                getMenuOrientation() == MenuOrientation.HORIZONTAL
                         ? LinearLayout.HORIZONTAL
                         : LinearLayout.VERTICAL
         );
         ViewGroup.LayoutParams menuContainerLP = new ViewGroup.LayoutParams(
-                width, height
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
         );
         mMenuContainer.setLayoutParams(menuContainerLP);
         parent.addView(mMenuContainer);
