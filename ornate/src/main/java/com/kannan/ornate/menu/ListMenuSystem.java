@@ -93,6 +93,7 @@ public class ListMenuSystem extends AbstractMenuSystem {
     }
 
     public void applyTheme(ThemeHelper themeHelper) {
+        themeHelper.applyForMenuContainer(mMenuContainer);
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View child = mMenuContainer.getChildAt(i);
             if (child.getTag() == MenuElementType.ELEMENT_DEVIDER.getTag()) {
@@ -121,10 +122,11 @@ public class ListMenuSystem extends AbstractMenuSystem {
 
     @Override
     protected void initialiseViewProperties(AnimationModel animationHelper) {
+        animationHelper.initManuContainer(mMenuContainer);
         for (int i = 0; i < mMenuContainer.getChildCount(); i += 1) {
             View view = mMenuContainer.getChildAt(i);
             if (isAnimatable(view)) {
-                animationHelper.initView(view);
+                animationHelper.initMenuItem(view);
             }
         }
     }
@@ -132,15 +134,16 @@ public class ListMenuSystem extends AbstractMenuSystem {
     @Override
     protected void buildAnimatorSet(AnimationModel animationModel) {
         AnimatorSet openAnimSet = buildAnimatorSet(animationModel, true);
+        openAnimSet.setStartDelay(500);
         AnimatorSet closeAnimSet = buildAnimatorSet(animationModel, false);
         super.setOpenAnimatorSet(openAnimSet);
         super.setCloseAnimatorSet(closeAnimSet);
     }
 
     private AnimatorSet buildAnimatorSet(AnimationModel animationModel, boolean isOpenAnimation) {
-        int duration = super.getAnimationDuration();
+        int duration = 300; //super.getAnimationDuration();
 //        int animCount = countAnimatables();
-        float animationOverlapFactor = 0.5f;
+        float animationOverlapFactor = 0.8f;
         int delay = (int) ((1f - animationOverlapFactor) * duration);
 //        int x = 0;
 
@@ -151,11 +154,23 @@ public class ListMenuSystem extends AbstractMenuSystem {
             if (isAnimatable(item)) {
                 al.addAll(
                         isOpenAnimation
-                                ? animationModel.getOpenAnimations(item, duration, delay * i)
-                                : animationModel.getCloseAnimations(item, duration, delay * i)
+                                ? animationModel.getMenuItemOpenAnimations(item, duration, delay * (i+1))
+                                : animationModel.getMenuItemCloseAnimations(item, duration, delay * (i+1))
                 );
             }
         }
+
+        al.addAll(
+                isOpenAnimation
+                        ? animationModel.getBgOverlayOpenAnimations(super.getRootContainer(), duration, 0)
+                        : animationModel.getBgOverlayCloseAnimations(super.getRootContainer(), duration, delay * (mMenuContainer.getChildCount()))
+        );
+
+        al.addAll(
+                isOpenAnimation
+                        ? animationModel.getMenuContainerOpenAnimations(mMenuContainer, duration, 0)
+                        : animationModel.getMenuContainerCloseAnimations(mMenuContainer, duration, delay * (mMenuContainer.getChildCount()))
+        );
 
         AnimatorSet animSet = new AnimatorSet();
         animSet.playTogether(al);

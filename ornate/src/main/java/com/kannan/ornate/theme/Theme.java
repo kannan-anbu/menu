@@ -16,7 +16,7 @@ public class Theme {
     }
 
     public int getMenuItemHeight() {
-        return 200;  // to DP
+        return 100;  // to DP
     }
 
 //    ------------------------
@@ -39,7 +39,7 @@ public class Theme {
 //    }
 
     public int getDividerThickness() {
-        return 10;   // to DP;
+        return 0;   // to DP;
     }
 
     public int getDividerColor() {
@@ -55,7 +55,12 @@ public class Theme {
     }
 
     public int getMenuBgColor() {
-        return Color.parseColor("#3f000000");
+        return Color.WHITE;
+    }
+
+    public int getMenuOverlayColor() {
+        return Color.parseColor("#5f000000");
+//        return Color.TRANSPARENT;
     }
 
 

@@ -1,6 +1,7 @@
 package com.kannan.ornate.menu;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -26,9 +27,9 @@ import java.util.List;
 public abstract class AbstractMenuSystem {
 
     private static final int SCROLL_CONTAINER_MAX_WIDTH = 600;      // to dp
-    private static final int SCROLL_CONTAINER_MAX_HEIGHT = 700;      // to dp
+    private static final int SCROLL_CONTAINER_MAX_HEIGHT = 1000;      // to dp
 
-    private static final int DEF_ANIMATION_DURATION = 200; // milli seconds
+    private static final int DEF_ANIMATION_DURATION = 300; // milli seconds
     private static final int MIN_ANIMATION_DURATION = 0; // milli seconds
     private static final int MAX_ANIMATION_DURATION = 1000;             // change max range
 
@@ -359,6 +360,10 @@ public abstract class AbstractMenuSystem {
 
     public MenuOrientation getMenuOrientation() {
         return mMenuOrientation;
+    }
+
+    protected View getRootContainer() {
+        return mRootContainer;
     }
 
 }

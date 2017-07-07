@@ -3,6 +3,8 @@ package com.kannan.ornate.animation;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import com.nineoldandroids.animation.Animator;
@@ -67,11 +69,22 @@ public class AlphaAnimationModel implements AnimationModel {
 
 
     @Override
-    public void initView(View view) {
+    public void initMenuItem(View view) {
         view.setAlpha(0.0f);
     }
 
-    public List<Animator> getOpenAnimations(View view, int duration, int delay) {
+    @Override
+    public void initManuContainer(View view) {
+        view.setScaleY(0f);
+        view.setAlpha(0.0f);
+    }
+
+    @Override
+    public void initBgOverlay(View view) {
+        view.setAlpha(0.0f);
+    }
+
+    public List<Animator> getMenuItemOpenAnimations(View view, int duration, int delay) {
 //        ViewGroup container = ((ViewGroup) view);
 //        String tag = (String) container.getTag();
 //        List<Animator> animList = new ArrayList<>();
@@ -125,13 +138,67 @@ public class AlphaAnimationModel implements AnimationModel {
         Animator animator = AnimatorSpawner.forAlpha(view, 0.0f, 1.0f);
         animator.setDuration(duration);
         animator.setStartDelay(delay);
+        animator.setInterpolator(new AccelerateInterpolator());
         return Arrays.asList(animator);
     }
 
-    public List<Animator> getCloseAnimations(View view,int duration,int delay) {
+    public List<Animator> getMenuItemCloseAnimations(View view,int duration,int delay) {
+        duration /= 2;
+        delay /= 2;
         Animator animator = AnimatorSpawner.forAlpha(view, 1.0f, 0.0f);
         animator.setDuration(duration);
         animator.setStartDelay(delay);
+        animator.setInterpolator(new AccelerateInterpolator());
         return Arrays.asList(animator);
+    }
+
+    @Override
+    public List<Animator> getMenuContainerOpenAnimations(View view, int duration, int delay) {
+        Animator scaleAtr = AnimatorSpawner.forScaleY(view, 0.0f, 1.0f);
+        scaleAtr.setDuration(duration);
+        scaleAtr.setStartDelay(delay);
+        scaleAtr.setInterpolator(new DecelerateInterpolator());
+        Animator alphaAtr = AnimatorSpawner.forAlpha(view, 0.0f, 1.0f);
+        alphaAtr.setDuration(duration);
+        alphaAtr.setStartDelay(delay);
+        alphaAtr.setInterpolator(new AccelerateInterpolator());
+        return Arrays.asList(scaleAtr, alphaAtr);
+    }
+
+    @Override
+    public List<Animator> getMenuContainerCloseAnimations(View view, int duration, int delay) {
+//        duration /= 2;
+        delay /= 2;
+        Animator scaleAtr = AnimatorSpawner.forScaleY(view, 1.0f, 0.0f);
+        scaleAtr.setDuration(duration);
+        scaleAtr.setStartDelay(delay);
+        scaleAtr.setInterpolator(new DecelerateInterpolator());
+        Animator alphaAtr = AnimatorSpawner.forAlpha(view, 1.0f, 0.0f);
+//        alphaAtr.setDuration((int) (duration * .75f));
+        alphaAtr.setDuration(duration);
+        alphaAtr.setStartDelay(delay);
+        alphaAtr.setInterpolator(new DecelerateInterpolator());
+        return Arrays.asList(scaleAtr, alphaAtr);
+    }
+
+    @Override
+    public List<Animator> getBgOverlayOpenAnimations(View view, int duration, int delay) {
+//        duration *= 2;
+        Animator alphaAtr = AnimatorSpawner.forAlpha(view, 0.0f, 1.0f);
+        alphaAtr.setDuration(duration);
+        alphaAtr.setStartDelay(delay);
+        alphaAtr.setInterpolator(new AccelerateInterpolator());
+        return Arrays.asList(alphaAtr);
+    }
+
+    @Override
+    public List<Animator> getBgOverlayCloseAnimations(View view, int duration, int delay) {
+        duration /= 2;
+        delay /= 2;
+        Animator alphaAtr = AnimatorSpawner.forAlpha(view, 1.0f, 0.0f);
+        alphaAtr.setDuration(duration);
+        alphaAtr.setStartDelay(delay);
+        alphaAtr.setInterpolator(new AccelerateInterpolator());
+        return Arrays.asList(alphaAtr);
     }
 }

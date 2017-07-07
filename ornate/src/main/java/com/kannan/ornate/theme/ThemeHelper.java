@@ -153,6 +153,10 @@ public class ThemeHelper {
 //    }
 
     public void applyForRootContainer(RelativeLayout root) {
-        root.setBackgroundColor(mTheme.getMenuBgColor());
+        root.setBackgroundColor(mTheme.getMenuOverlayColor());
+    }
+
+    public void applyForMenuContainer(LinearLayout menuContainer) {
+        menuContainer.setBackgroundColor(mTheme.getMenuBgColor());
     }
 }

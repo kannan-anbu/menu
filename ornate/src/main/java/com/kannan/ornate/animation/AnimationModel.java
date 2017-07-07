@@ -12,10 +12,22 @@ import java.util.List;
 
 public interface AnimationModel {
 
-    void initView(View view);
+    void initMenuItem(View view);
 
-    List<Animator> getOpenAnimations(View view, int duration, int delay);
+    void initManuContainer(View view);
 
-    List<Animator> getCloseAnimations(View view, int duration, int delay);
+    void initBgOverlay(View view);
+
+    List<Animator> getMenuItemOpenAnimations(View view, int duration, int delay);
+
+    List<Animator> getMenuItemCloseAnimations(View view, int duration, int delay);
+
+    List<Animator> getMenuContainerOpenAnimations(View view, int duration, int delay);
+
+    List<Animator> getMenuContainerCloseAnimations(View view, int duration, int delay);
+
+    List<Animator> getBgOverlayOpenAnimations(View view, int duration, int delay);
+
+    List<Animator> getBgOverlayCloseAnimations(View view, int duration, int delay);
 
 }

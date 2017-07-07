@@ -75,4 +75,5 @@ public class MenuDialogFragment extends DialogFragment {
             mMenuSystem.toggleMenu();
         }
     }
+
 }
